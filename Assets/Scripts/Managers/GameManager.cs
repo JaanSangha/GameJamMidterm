@@ -74,6 +74,7 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 0;
         HintBar.gameObject.SetActive(false);
         IsPaused = true;
+        textBG.SetActive(false);
     }
 
     public void ResumeGame()
@@ -82,6 +83,7 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1;
         HintBar.gameObject.SetActive(true);
         IsPaused = false;
+        textBG.SetActive(true);
     }
 
     public void SetRunMusic()
