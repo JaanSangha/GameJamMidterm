@@ -10,7 +10,6 @@ public class WaterMovement : MonoBehaviour
     void Start()
     {
         yPos = transform.position.y;
-        InvokeRepeating("RiseWater", 1f, 1f);  //1s delay, repeat every 1s
     }
 
     // Update is called once per frame
@@ -26,5 +25,10 @@ public class WaterMovement : MonoBehaviour
     void RiseWater()
     {
         yPos += .3f;
+    }
+
+    public void StartRising()
+    {
+        InvokeRepeating("RiseWater", 1f, 1f);  //1s delay, repeat every 1s
     }
 }
