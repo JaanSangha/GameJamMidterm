@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3586730146081300722}
   - component: {fileID: 3586730146081300723}
   - component: {fileID: 1669937620}
+  - component: {fileID: 8879071674293107818}
   m_Layer: 0
   m_Name: Ocean
   m_TagString: Water
@@ -112,3 +113,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterSpeed: 1
+--- !u!65 &8879071674293107818
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3586730146081300724}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 750, y: 22.48366, z: 750}
+  m_Center: {x: 0, y: -15.092494, z: 0}

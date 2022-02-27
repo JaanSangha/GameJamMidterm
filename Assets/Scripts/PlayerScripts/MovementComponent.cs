@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 public class MovementComponent : MonoBehaviour
 {
     public GameObject FloorOneSwitches;
+    public GameObject FloorTwoSwitches;
+    public GameObject FloorThreeSwitches;
+    public GameObject FloorFourSwitches;
+    public Transform SpawnPoint;
 
     [SerializeField]
     float walkSpeed = 5;
@@ -30,6 +34,10 @@ public class MovementComponent : MonoBehaviour
 
     public float aimSensitivity = 0.2f;
     private bool InSwitchZone;
+    private bool InSwitchZoneTwo;
+    private bool InSwitchZoneThree;
+    private bool InSwitchZoneFour;
+
 
     //animator hashes
     public readonly int movementXHash = Animator.StringToHash("MovementX");
@@ -53,6 +61,7 @@ public class MovementComponent : MonoBehaviour
         UnityEngine.Cursor.visible = false;
 
         playerControls = new PlayerInputActions();
+        transform.position = SpawnPoint.position;
     }
     // Start is called before the first frame update
     void Start()
@@ -165,8 +174,19 @@ public class MovementComponent : MonoBehaviour
 
         if(InSwitchZone)
         {
-            print("Trigger pressed");
             FloorOneSwitches.SetActive(false);
+        }
+        else if (InSwitchZoneTwo)
+        {
+            FloorTwoSwitches.SetActive(false);
+        }
+        else if (InSwitchZoneThree)
+        {
+            FloorThreeSwitches.SetActive(false);
+        }
+        else if (InSwitchZoneFour)
+        {
+            FloorFourSwitches.SetActive(false);
         }
     }
     public void OnLook(InputValue value)
@@ -181,8 +201,39 @@ public class MovementComponent : MonoBehaviour
         {
             InSwitchZone = true;
         }
+        else if (other.gameObject.CompareTag("Switch2"))
+        {
+            InSwitchZoneTwo = true;
+        }
+        else if (other.gameObject.CompareTag("Switch3"))
+        {
+            InSwitchZoneThree = true;
+        }
+        else if (other.gameObject.CompareTag("Switch4"))
+        {
+            InSwitchZoneFour = true;
+        }
     }
-    
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Switch"))
+        {
+            InSwitchZone = false;
+        }
+        else if (other.gameObject.CompareTag("Switch2"))
+        {
+            InSwitchZoneTwo = false;
+        }
+        else if (other.gameObject.CompareTag("Switch3"))
+        {
+            InSwitchZoneThree = false;
+        }
+        else if (other.gameObject.CompareTag("Switch4"))
+        {
+            InSwitchZoneFour = false;
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
