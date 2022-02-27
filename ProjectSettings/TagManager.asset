@@ -11,6 +11,7 @@ TagManager:
   - Switch3
   - Switch4
   - WaterTrigger
+  - Goal
   layers:
   - Default
   - TransparentFX

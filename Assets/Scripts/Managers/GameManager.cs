@@ -2,10 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 public class GameManager : Singleton<GameManager>
 {
     public TMP_Text HintBar;
+    public TMP_Text ResultText;
     public bool cursorActive = true;
+    public GameObject EndScreen;
+    public GameObject pauseScreen;
+    public bool IsPaused;
+    //sound manager
+    public AudioSource audioSource;
+    public AudioClip runMusic;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        IsPaused = false;
+        Time.timeScale = 1;
+
+    }
     void EnableCursor(bool enable)
     {
         if (enable)
@@ -33,5 +50,51 @@ public class GameManager : Singleton<GameManager>
     public void SetHintBar(string message)
     {
         HintBar.SetText(message);
+    }
+
+    public void GameOver(string result)
+    {
+        Time.timeScale = 0;
+        HintBar.gameObject.SetActive(false);
+        EndScreen.SetActive(true);
+        ResultText.SetText(result);
+    }
+
+    public void PauseGame()
+    {
+        if (IsPaused) return;
+        pauseScreen.SetActive(true);
+        Time.timeScale = 0;
+        HintBar.gameObject.SetActive(false);
+        IsPaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        pauseScreen.SetActive(false);
+        Time.timeScale = 1;
+        HintBar.gameObject.SetActive(true);
+        IsPaused = false;
+    }
+
+    public void SetRunMusic()
+    {
+        audioSource.clip = runMusic;
+        audioSource.Play();
+    }
+
+    public void MainMenuPressed()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ExitPressed()
+    {
+        Application.Quit();
+    }
+
+    public void RestartPressed()
+    {
+        SceneManager.LoadScene("Main");
     }
 }

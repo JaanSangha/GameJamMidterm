@@ -61,7 +61,7 @@ public class MovementComponent : MonoBehaviour
             AppEvents.InvokeMouseCursorEnable(false);
         }
 
-        UnityEngine.Cursor.visible = false;
+        //UnityEngine.Cursor.visible = false;
 
         playerControls = new PlayerInputActions();
         transform.position = SpawnPoint.position;
@@ -71,7 +71,7 @@ public class MovementComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -112,14 +112,12 @@ public class MovementComponent : MonoBehaviour
         Vector3 movementDirection = moveDirection * (currentSpeed * Time.deltaTime);
 
         transform.position += movementDirection;
-
-        //Interact = playerControls.PlayerActionMap.Interact.ReadValue<float>() > 0.1;
     }
 
     public void LateUpdate()
     {
-        playerController.isRolling = false;
-        playerAnimator.SetBool(isRollingHash, playerController.isRolling);
+        //playerController.isRolling = false;
+        //playerAnimator.SetBool(isRollingHash, playerController.isRolling);
 
         //playerController.isInteracting = false;
         //playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
@@ -137,6 +135,13 @@ public class MovementComponent : MonoBehaviour
         playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
         print("Set interact false");
     }
+
+    public void SetRollingFalse()
+    {
+        playerController.isRolling = false;
+        playerAnimator.SetBool(isRollingHash, playerController.isRolling);
+        print("Set rolling false");
+    }
     public void OnRun(InputValue value)
     {
         playerController.isRunning = value.isPressed;
@@ -145,14 +150,14 @@ public class MovementComponent : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        if(playerController.isJumping)
-        {
-            return;
-        }
+        //if(playerController.isJumping)
+        //{
+        //    return;
+        //}
 
-        playerController.isJumping = value.isPressed;
-        playerAnimator.SetBool(isJumpingHash, playerController.isJumping);
-        rigidbody.AddForce((transform.up + moveDirection) * jumpForce, ForceMode.Impulse);
+        //playerController.isJumping = value.isPressed;
+        //playerAnimator.SetBool(isJumpingHash, playerController.isJumping);
+        //rigidbody.AddForce((transform.up + moveDirection) * jumpForce, ForceMode.Impulse);
     }
 
     public void OnRoll(InputValue value)
@@ -200,7 +205,18 @@ public class MovementComponent : MonoBehaviour
         // if we aim up,down, adjust anims to have mask that properly animates aim
     }
 
-    private void OnTriggerStay(Collider other)
+    public void OnPause(InputValue value)
+    {
+        if (gameManager.IsPaused)
+        {
+            return;
+        }
+        else
+        {
+            gameManager.PauseGame();
+        }
+    }
+        private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Switch"))
         {
@@ -246,6 +262,7 @@ public class MovementComponent : MonoBehaviour
         
         playerController.isJumping = false;
         playerAnimator.SetBool(isJumpingHash, false);
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -256,8 +273,20 @@ public class MovementComponent : MonoBehaviour
             {
                 waveController.GetComponent<WaterMovement>().StartRising();
                 waterIsRising = true;
-                gameManager.SetHintBar("Water Level Rising! Find Higher Ground!");
+                gameManager.SetHintBar("Water Level Rising! Unlock Doors To Find Higher Ground!");
+                gameManager.SetRunMusic();
             }
         }
+
+        if(other.CompareTag("Goal"))
+        {
+            gameManager.GameOver("You Made It To The Helicopter, You Escaped!");
+        }
+
+        if (other.CompareTag("Water"))
+        {
+            gameManager.GameOver("You Weren't Fast Enough, Try Again!");
+        }
+
     }
 }
