@@ -12,6 +12,8 @@ public class MovementComponent : MonoBehaviour
     float runSpeed = 10;
     [SerializeField]
     float jumpForce = 5;
+    [SerializeField]
+    float rollForce = 5;
 
     //components
     private PlayerController playerController;
@@ -32,7 +34,7 @@ public class MovementComponent : MonoBehaviour
     public readonly int movementYHash = Animator.StringToHash("MovementY");
     public readonly int isJumpingHash = Animator.StringToHash("IsJumping");
     public readonly int isRunningHash = Animator.StringToHash("IsRunning");
-
+    public readonly int isRollingHash = Animator.StringToHash("IsRolling");
 
     private void Awake()
     {
@@ -92,6 +94,11 @@ public class MovementComponent : MonoBehaviour
         transform.position += movementDirection;
     }
 
+    public void LateUpdate()
+    {
+        playerController.isRolling = false;
+        playerAnimator.SetBool(isRollingHash, playerController.isRolling);
+    }
     public void OnMovement(InputValue value)
     {
         inputVector = value.Get<Vector2>();
@@ -99,6 +106,7 @@ public class MovementComponent : MonoBehaviour
         playerAnimator.SetFloat(movementYHash, inputVector.y);
     }
 
+    
     public void OnRun(InputValue value)
     {
         playerController.isRunning = value.isPressed;
@@ -117,9 +125,16 @@ public class MovementComponent : MonoBehaviour
         rigidbody.AddForce((transform.up + moveDirection) * jumpForce, ForceMode.Impulse);
     }
 
-    public void OnAim(InputValue value)
+    public void OnRoll(InputValue value)
     {
-        playerController.isAiming = value.isPressed;
+        if (playerController.isRolling)
+        {
+            return;
+        }
+
+        playerController.isRolling = value.isPressed;
+        playerAnimator.SetBool(isRollingHash, playerController.isRolling);
+        rigidbody.AddForce((transform.forward + moveDirection) * rollForce, ForceMode.Impulse);
     }
 
     public void OnLook(InputValue value)

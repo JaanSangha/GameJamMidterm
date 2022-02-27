@@ -22,6 +22,14 @@
                     "interactions": "Press"
                 },
                 {
+                    "name": "Roll",
+                    "type": "Button",
+                    "id": "65694086-bf5e-4592-8d3d-644cf2623a43",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
                     "name": "Run",
                     "type": "Button",
                     "id": "16e8d10a-fcc0-423d-94ee-544f9fa939c4",
@@ -44,22 +52,6 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "Reload",
-                    "type": "Button",
-                    "id": "34702bcd-03b0-4743-8e60-0b6927727cfa",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press"
-                },
-                {
-                    "name": "Fire",
-                    "type": "Button",
-                    "id": "49721432-567c-4de3-99ec-17e3f0657a2b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -164,23 +156,12 @@
                 },
                 {
                     "name": "",
-                    "id": "da133daa-2e1f-4f84-be34-db6836434a77",
+                    "id": "0597a350-4d20-4eb4-86fe-0d8478375a80",
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Reload",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cf15132a-8c64-4f91-9536-610861bceb79",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fire",
+                    "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
