@@ -10,6 +10,8 @@ public class MovementComponent : MonoBehaviour
     public GameObject FloorThreeSwitches;
     public GameObject FloorFourSwitches;
     public Transform SpawnPoint;
+    public GameObject waveController;
+    public GameManager gameManager;
 
     [SerializeField]
     float walkSpeed = 5;
@@ -37,6 +39,7 @@ public class MovementComponent : MonoBehaviour
     private bool InSwitchZoneTwo;
     private bool InSwitchZoneThree;
     private bool InSwitchZoneFour;
+    private bool waterIsRising;
 
 
     //animator hashes
@@ -62,6 +65,8 @@ public class MovementComponent : MonoBehaviour
 
         playerControls = new PlayerInputActions();
         transform.position = SpawnPoint.position;
+        waveController = GameObject.FindGameObjectWithTag("Water");
+        gameManager = FindObjectOfType<GameManager>();
     }
     // Start is called before the first frame update
     void Start()
@@ -241,5 +246,18 @@ public class MovementComponent : MonoBehaviour
         
         playerController.isJumping = false;
         playerAnimator.SetBool(isJumpingHash, false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!waterIsRising)
+        {
+            if (other.CompareTag("WaterTrigger"))
+            {
+                waveController.GetComponent<WaterMovement>().StartRising();
+                waterIsRising = true;
+                gameManager.SetHintBar("Water Level Rising! Find Higher Ground!");
+            }
+        }
     }
 }

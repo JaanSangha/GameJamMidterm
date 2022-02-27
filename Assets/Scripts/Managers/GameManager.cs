@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class GameManager : Singleton<GameManager>
 {
-
+    public TMP_Text HintBar;
     public bool cursorActive = true;
     void EnableCursor(bool enable)
     {
@@ -28,5 +28,10 @@ public class GameManager : Singleton<GameManager>
     private void OnDisable()
     {
         AppEvents.MouseCursorEnabled -= EnableCursor;
+    }
+
+    public void SetHintBar(string message)
+    {
+        HintBar.SetText(message);
     }
 }
