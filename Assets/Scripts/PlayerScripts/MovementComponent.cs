@@ -295,7 +295,7 @@ public class MovementComponent : MonoBehaviour
         }
         if (other.CompareTag("RoofTrigger"))
         {
-            gameManager.GameOver("Make It To The Helicopter To Escape!");
+            gameManager.SetHintBar("Make It To The Helicopter To Escape!");
         }
 
     }
