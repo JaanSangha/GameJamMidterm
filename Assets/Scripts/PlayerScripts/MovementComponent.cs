@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class MovementComponent : MonoBehaviour
 {
+    public GameObject FloorOneSwitches;
 
     [SerializeField]
     float walkSpeed = 5;
@@ -25,9 +26,10 @@ public class MovementComponent : MonoBehaviour
     Vector2 inputVector = Vector2.zero;
     Vector3 moveDirection = Vector3.zero;
     Vector2 lookInput = Vector2.zero;
-
+    PlayerInputActions playerControls;
 
     public float aimSensitivity = 0.2f;
+    private bool InSwitchZone;
 
     //animator hashes
     public readonly int movementXHash = Animator.StringToHash("MovementX");
@@ -35,6 +37,8 @@ public class MovementComponent : MonoBehaviour
     public readonly int isJumpingHash = Animator.StringToHash("IsJumping");
     public readonly int isRunningHash = Animator.StringToHash("IsRunning");
     public readonly int isRollingHash = Animator.StringToHash("IsRolling");
+    public readonly int isInteractingHash = Animator.StringToHash("IsInteracting");
+
 
     private void Awake()
     {
@@ -47,6 +51,8 @@ public class MovementComponent : MonoBehaviour
         }
 
         UnityEngine.Cursor.visible = false;
+
+        playerControls = new PlayerInputActions();
     }
     // Start is called before the first frame update
     void Start()
@@ -92,12 +98,17 @@ public class MovementComponent : MonoBehaviour
         Vector3 movementDirection = moveDirection * (currentSpeed * Time.deltaTime);
 
         transform.position += movementDirection;
+
+        //Interact = playerControls.PlayerActionMap.Interact.ReadValue<float>() > 0.1;
     }
 
     public void LateUpdate()
     {
         playerController.isRolling = false;
         playerAnimator.SetBool(isRollingHash, playerController.isRolling);
+
+        //playerController.isInteracting = false;
+        //playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
     }
     public void OnMovement(InputValue value)
     {
@@ -106,7 +117,12 @@ public class MovementComponent : MonoBehaviour
         playerAnimator.SetFloat(movementYHash, inputVector.y);
     }
 
-    
+    public void SetInteractFalse()
+    {
+        playerController.isInteracting = false;
+        playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
+        print("Set interact false");
+    }
     public void OnRun(InputValue value)
     {
         playerController.isRunning = value.isPressed;
@@ -137,13 +153,37 @@ public class MovementComponent : MonoBehaviour
         rigidbody.AddForce((transform.forward + moveDirection) * rollForce, ForceMode.Impulse);
     }
 
+    public void OnInteract(InputValue value)
+    {
+        if (playerController.isInteracting)
+        {
+            return;
+        }
+
+        playerController.isInteracting = value.isPressed;
+        playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
+
+        if(InSwitchZone)
+        {
+            print("Trigger pressed");
+            FloorOneSwitches.SetActive(false);
+        }
+    }
     public void OnLook(InputValue value)
     {
         lookInput = value.Get<Vector2>();
         // if we aim up,down, adjust anims to have mask that properly animates aim
     }
 
-   
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Switch"))
+        {
+            InSwitchZone = true;
+        }
+    }
+    
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground") && !playerController.isJumping) return;

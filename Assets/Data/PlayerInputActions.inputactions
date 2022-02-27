@@ -30,6 +30,14 @@
                     "interactions": "Press"
                 },
                 {
+                    "name": "Interact",
+                    "type": "PassThrough",
+                    "id": "037fe53a-21d5-4424-9e75-434bd9b7165c",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Run",
                     "type": "Button",
                     "id": "16e8d10a-fcc0-423d-94ee-544f9fa939c4",
@@ -162,6 +170,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d5ef32d-e47d-40d3-a78b-26725a23b940",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

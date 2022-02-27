@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SwitchController : MonoBehaviour
 {
-    public GameObject FloorOneSwitches;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,11 +16,11 @@ public class SwitchController : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            FloorOneSwitches.SetActive(false);
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        FloorOneSwitches.SetActive(false);
+    //    }
+    //}
 }
