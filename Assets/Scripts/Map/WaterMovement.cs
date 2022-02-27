@@ -24,7 +24,7 @@ public class WaterMovement : MonoBehaviour
 
     void RiseWater()
     {
-        yPos += .3f;
+        yPos += .28f;
     }
 
     public void StartRising()

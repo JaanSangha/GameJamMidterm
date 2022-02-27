@@ -11,10 +11,14 @@ public class GameManager : Singleton<GameManager>
     public bool cursorActive = true;
     public GameObject EndScreen;
     public GameObject pauseScreen;
+    public GameObject textBG;
+
     public bool IsPaused;
     //sound manager
     public AudioSource audioSource;
     public AudioClip runMusic;
+    public AudioClip menuMusic;
+
 
     private void Start()
     {
@@ -58,6 +62,9 @@ public class GameManager : Singleton<GameManager>
         HintBar.gameObject.SetActive(false);
         EndScreen.SetActive(true);
         ResultText.SetText(result);
+        textBG.SetActive(false);
+        audioSource.clip = menuMusic;
+        audioSource.Play();
     }
 
     public void PauseGame()

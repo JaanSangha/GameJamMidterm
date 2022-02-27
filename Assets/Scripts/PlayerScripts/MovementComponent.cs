@@ -24,6 +24,7 @@ public class MovementComponent : MonoBehaviour
 
     //components
     private PlayerController playerController;
+    private AudioSource audioSource;
     Rigidbody rigidbody;
     Animator playerAnimator;
     public GameObject followTarget;
@@ -67,6 +68,7 @@ public class MovementComponent : MonoBehaviour
         transform.position = SpawnPoint.position;
         waveController = GameObject.FindGameObjectWithTag("Water");
         gameManager = FindObjectOfType<GameManager>();
+        audioSource = GetComponent<AudioSource>();
     }
     // Start is called before the first frame update
     void Start()
@@ -185,18 +187,22 @@ public class MovementComponent : MonoBehaviour
         if(InSwitchZone)
         {
             FloorOneSwitches.SetActive(false);
+            audioSource.Play();
         }
         else if (InSwitchZoneTwo)
         {
             FloorTwoSwitches.SetActive(false);
+            audioSource.Play();
         }
         else if (InSwitchZoneThree)
         {
             FloorThreeSwitches.SetActive(false);
+            audioSource.Play();
         }
         else if (InSwitchZoneFour)
         {
             FloorFourSwitches.SetActive(false);
+            audioSource.Play();
         }
     }
     public void OnLook(InputValue value)
@@ -273,7 +279,7 @@ public class MovementComponent : MonoBehaviour
             {
                 waveController.GetComponent<WaterMovement>().StartRising();
                 waterIsRising = true;
-                gameManager.SetHintBar("Water Level Rising! Unlock Doors To Find Higher Ground!");
+                gameManager.SetHintBar("Water Level Rising! Unlock Doors To Find A Way To The Roof!");
                 gameManager.SetRunMusic();
             }
         }
@@ -286,6 +292,10 @@ public class MovementComponent : MonoBehaviour
         if (other.CompareTag("Water"))
         {
             gameManager.GameOver("You Weren't Fast Enough, Try Again!");
+        }
+        if (other.CompareTag("RoofTrigger"))
+        {
+            gameManager.GameOver("Make It To The Helicopter To Escape!");
         }
 
     }
